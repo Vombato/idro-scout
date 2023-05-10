@@ -11,7 +11,7 @@ LOCATION = os.environ.get("LOCATION")
 metric = Gauge(LOCATION + "_m", 'My metric description', ['time'])
 
 # Start the Prometheus HTTP server
-start_http_server(8000)
+start_http_server(8001)
 
 # Read the data from the file
 with open('data.txt', 'r') as f:
