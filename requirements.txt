@@ -1,0 +1,3 @@
+selenium
+prometheus-client
+python-dotenv
