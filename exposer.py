@@ -8,7 +8,7 @@ load_dotenv(find_dotenv())
 LOCATION = os.environ.get("LOCATION")
 
 # Define a Prometheus gauge metric
-metric = Gauge(LOCATION + "_m", 'My metric description', ['time'])
+metric = Gauge(LOCATION, 'My metric description', ['time'])
 
 # Start the Prometheus HTTP server
 start_http_server(8001)
