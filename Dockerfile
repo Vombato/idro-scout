@@ -11,5 +11,4 @@ RUN touch data.txt
 
 RUN pip3 install -r requirements.txt
 
-CMD [ "python3", "./scout.py" ]
-CMD [ "python3", "./exposer.py" ]
+CMD [ "./startup.sh" ]
