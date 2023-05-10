@@ -1,5 +1,9 @@
 FROM joyzoursky/python-chromedriver:3.9-selenium
 
+COPY . /app
+
+WORKDIR /app
+
 RUN touch data.txt
 
 RUN chmod +x startup.sh
