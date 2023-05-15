@@ -1,5 +1,6 @@
 import time
 from datetime import datetime
+from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -11,6 +12,9 @@ import os
 load_dotenv(find_dotenv())
 
 URL = os.environ.get("URL")
+URL_SUFFIX = os.environ.get("URL_SUFFIX")
+LOCATION = os.environ.get("LOCATION")
+
 URL_SUFFIX = os.environ.get("URL_SUFFIX")
 LOCATION = os.environ.get("LOCATION")
 
@@ -35,6 +39,14 @@ while True:
         data = driver.find_element(By.CLASS_NAME, 'ultDato').text
         time_now = driver.find_element(By.CLASS_NAME, 'ultOre').text
 
+        # Close browser
+        driver.quit()
+        
+        # If time_now contains " locale" remove it
+        if " locale" in time_now:
+            time_now = time_now.replace(" locale", "")
+        if " m" in data:
+            data = data.replace(" m", "")
         # Close browser
         driver.quit()
         
