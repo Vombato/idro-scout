@@ -23,7 +23,6 @@ while True:
     try:
         print ("Scraping...")
         url = URL + datetime.now().strftime("%Y-%m-%d") + URL_SUFFIX
-        print(url)
         chrome_options = Options()
         chrome_options.add_argument('--headless')
         driver = webdriver.Chrome(options=chrome_options)
