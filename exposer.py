@@ -5,24 +5,33 @@ import os
 
 load_dotenv(find_dotenv())
 
-LOCATION = os.environ.get("LOCATION")
+NUMBER = os.environ.get("LOCATIONS")
 
-# Define a Prometheus gauge metric
-metric = Gauge(LOCATION, 'My metric description', ['source'])
+LOCATIONS = []
+DBS = []
+METRICS = []
+
+for n in NUMBER:
+    location = os.environ.get("LOCATION_" + n)
+    LOCATIONS.add(location)
+    DBS.add(os.environ.get("data" + n + ".txt"))
+    METRICS.add(Gauge(location, 'Livello idrometrico ' + location, ['source']))
+
 
 # Start the Prometheus HTTP server
 start_http_server(8001)
 
 while True:
 
-    # Read the last line of the data file
-    with open('data.txt', 'r') as file:
-        for line in file:
-            pass
+    for n in NUMBER:
+        # Read the last line of the data file
+        with open(DBS[n-1], 'r') as file:
+            for line in file:
+                pass
     
-    # Split the line into two parts
-    parts = line.strip().split(';')
-    metric.labels(source="arpae").set(float(parts[0].strip()))
+        # Split the line into two parts
+        parts = line.strip().split(';')
+        METRICS[n-1].labels(source="arpae").set(float(parts[0].strip()))
 
     # Wait for the HTTP server to start up
     time.sleep(10)
