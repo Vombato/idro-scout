@@ -18,7 +18,7 @@ LOCATIONS = []
 DBS = []
 CACHE = []
 
-for n in NUMBER:
+for n in range(1, int(NUMBER)+1):
     LOCATIONS.add(os.environ.get("LOCATION_" + n))
     DBS.add(os.environ.get("data" + n + ".txt"))
     CACHE.add("")
@@ -27,10 +27,10 @@ for n in NUMBER:
 # Set up headless browser with Chrome driver
 
 while True:
-    for n in NUMBER:
+    for n in range(1, int(NUMBER)+1):
         try:
             print ("Scraping...")
-            url = URL + datetime.now().strftime("%Y-%m-%d") + LOCATIONS[n-1]
+            url = URL + datetime.now().strftime("%Y-%m-%d") + LOCATIONS[n]
             chrome_options = Options()
             chrome_options.add_argument('--headless')
             driver = webdriver.Chrome(options=chrome_options)
@@ -54,7 +54,7 @@ while True:
             # Close browser
             driver.quit()
 
-            if time_now != CACHE[n-1]:
+            if time_now != CACHE[n]:
                 print ("New data found!")
                 print(data + " | " + time_now)
                 with open(DBS[n], "a") as file:
