@@ -15,13 +15,27 @@ URL = os.environ.get("URL")
 NUMBER = os.environ.get("LOCATIONS")
 
 LOCATIONS = []
+URL_LOCATIONS = []
 DBS = []
 CACHE = []
 
+URL_MIDDLE = os.environ.get("URL_MIDDLE")
+URL_STAZIONE = os.environ.get("URL_STAZIONE")
+URL_SUFFIX = os.environ.get("URL_SUFFIX")
+
+# add to LOCATIONS and DBS lists the locations and data files
+
+
 for n in range(1, int(NUMBER)+1):
-    LOCATIONS.add(os.environ.get("LOCATION_" + n))
-    DBS.add(os.environ.get("data" + n + ".txt"))
-    CACHE.add("")
+    print("Adding location " + str(n))
+    LOCATIONS.append(os.environ.get("LOCATION_" + str(n)))
+    URL_LOCATIONS.append(os.environ.get("URL_LOCATION_" + str(n)))
+    DBS.append("data" + str(n)  + ".txt")
+    CACHE.append("")
+
+print("LOCATIONS: " + str(LOCATIONS))
+print("URL_LOCATIONS: " + str(URL_LOCATIONS))
+print("DBS: " + str(DBS))
 
 
 # Set up headless browser with Chrome driver
@@ -30,19 +44,19 @@ while True:
     for n in range(1, int(NUMBER)+1):
         try:
             print ("Scraping...")
-            url = URL + datetime.now().strftime("%Y-%m-%d") + LOCATIONS[n]
+            url = URL + URL_LOCATIONS[n-1] + URL_MIDDLE + datetime.now().strftime("%Y-%m-%d") + URL_STAZIONE + URL_LOCATIONS[n-1] + URL_SUFFIX
             chrome_options = Options()
             chrome_options.add_argument('--headless')
             driver = webdriver.Chrome(options=chrome_options)
-
             # Navigate to webpage and wait for JavaScript to load
+            print("Navigating to " + url)
             driver.get(url)
             wait = WebDriverWait(driver, 10)
             wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'ultDato')))
-
             data = driver.find_element(By.CLASS_NAME, 'ultDato').text
+            print("Data: " + data)
             time_now = driver.find_element(By.CLASS_NAME, 'ultOre').text
-
+            print("Time: " + time_now)
             # Close browser
             driver.quit()
             
@@ -51,13 +65,11 @@ while True:
                 time_now = time_now.replace(" locale", "")
             if " m" in data:
                 data = data.replace(" m", "")
-            # Close browser
-            driver.quit()
 
-            if time_now != CACHE[n]:
+            if time_now != CACHE[n-1]:
                 print ("New data found!")
                 print(data + " | " + time_now)
-                with open(DBS[n], "a") as file:
+                with open(DBS[n-1], "a") as file:
                     file.write(data + ";" + time_now + "\n")
             else:
                 print("No new data")

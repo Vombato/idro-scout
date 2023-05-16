@@ -12,10 +12,10 @@ DBS = []
 METRICS = []
 
 for n in range(1, int(NUMBER)+1):
-    location = os.environ.get("LOCATION_" + n)
-    LOCATIONS.add(location)
-    DBS.add(os.environ.get("data" + n + ".txt"))
-    METRICS.add(Gauge(location, 'Livello idrometrico ' + location, ['source']))
+    location = os.environ.get("LOCATION_" + str(n))
+    LOCATIONS.append(location)
+    DBS.append("data" + str(n)  + ".txt")
+    METRICS.append(Gauge(location, 'Livello idrometrico ' + location, ['source']))
 
 
 # Start the Prometheus HTTP server
@@ -25,13 +25,13 @@ while True:
 
     for n in range(1, int(NUMBER)+1):
         # Read the last line of the data file
-        with open(DBS[n], 'r') as file:
+        with open(DBS[n-1], 'r') as file:
             for line in file:
                 pass
     
         # Split the line into two parts
         parts = line.strip().split(';')
-        METRICS[n].labels(source="arpae").set(float(parts[0].strip()))
+        METRICS[n-1].labels(source="arpae").set(float(parts[0].strip()))
 
     # Wait for the HTTP server to start up
     time.sleep(10)
