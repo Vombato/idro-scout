@@ -1,5 +1,6 @@
 import time
 from datetime import datetime
+from datetime import timedelta
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -43,8 +44,10 @@ print("DBS: " + str(DBS))
 while True:
     for n in range(1, int(NUMBER)+1):
         try:
-            print ("Scraping...")
-            url = URL + URL_LOCATIONS[n-1] + URL_MIDDLE + datetime.now().strftime("%Y-%m-%d") + URL_STAZIONE + URL_LOCATIONS[n-1] + URL_SUFFIX
+            today = datetime.now()
+            past3 = today - timedelta(days=3)
+            print ("Scraping " + LOCATIONS[n-1] + "...")
+            url = URL + URL_LOCATIONS[n-1] + URL_MIDDLE + past3.strftime("%Y-%m-%d") + "/" + datetime.now().strftime("%Y-%m-%d") + URL_STAZIONE + URL_LOCATIONS[n-1] + URL_SUFFIX
             chrome_options = Options()
             chrome_options.add_argument('--headless')
             driver = webdriver.Chrome(options=chrome_options)
@@ -66,7 +69,7 @@ while True:
             if " m" in data:
                 data = data.replace(" m", "")
 
-            if time_now != CACHE[n-1]:
+            if time_now != CACHE[n-1] or time_now == "":
                 print ("New data found!")
                 print(data + " | " + time_now)
                 with open(DBS[n-1], "a") as file:
