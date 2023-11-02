@@ -14,7 +14,7 @@ METRICS = []
 for n in range(1, int(NUMBER)+1):
     location = os.environ.get("LOCATION_" + str(n))
     LOCATIONS.append(location)
-    DBS.append("data" + str(n)  + ".txt")
+    DBS.append("db/data" + str(n)  + ".txt")
     METRICS.append(Gauge(location, 'Livello idrometrico ' + location, ['source']))
 
 
