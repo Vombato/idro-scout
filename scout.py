@@ -31,7 +31,7 @@ for n in range(1, int(NUMBER)+1):
     print("Adding location " + str(n))
     LOCATIONS.append(os.environ.get("LOCATION_" + str(n)))
     URL_LOCATIONS.append(os.environ.get("URL_LOCATION_" + str(n)))
-    DBS.append("data" + str(n)  + ".txt")
+    DBS.append("db/data" + str(n)  + ".txt")
     CACHE.append("")
 
 print("LOCATIONS: " + str(LOCATIONS))
