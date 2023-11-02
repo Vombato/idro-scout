@@ -58,7 +58,8 @@ while True:
             wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'ultDato')))
             data = driver.find_element(By.CLASS_NAME, 'ultDato').text
             print("Data: " + data)
-            time_now = driver.find_element(By.CLASS_NAME, 'ultOre').text
+            # time_now = driver.find_element(By.CLASS_NAME, 'ultOre').text
+            time_now = datetime.now().strftime("%H:%M")
             print("Time: " + time_now)
             # Close browser
             driver.quit()
