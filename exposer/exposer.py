@@ -6,15 +6,17 @@ import os
 load_dotenv(find_dotenv())
 
 NUMBER = os.environ.get("LOCATIONS")
-
 LOCATIONS = []
 DBS = []
 METRICS = []
 
 for n in range(1, int(NUMBER)+1):
     location = os.environ.get("LOCATION_" + str(n))
+    print("Adding location " + str(n) + " " + location)
     LOCATIONS.append(location)
+    print(LOCATIONS)
     DBS.append("db/data" + str(n)  + ".txt")
+    print(DBS)
     METRICS.append(Gauge(location, 'Livello idrometrico ' + location, ['source']))
 
 

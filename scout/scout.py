@@ -48,8 +48,12 @@ while True:
             past3 = today - timedelta(days=3)
             print ("Scraping " + LOCATIONS[n-1] + "...")
             url = URL + URL_LOCATIONS[n-1] + URL_MIDDLE + past3.strftime("%Y-%m-%d") + "/" + datetime.now().strftime("%Y-%m-%d") + URL_STAZIONE + URL_LOCATIONS[n-1] + URL_SUFFIX
-            chrome_options = Options()
+            chrome_options = webdriver.ChromeOptions()
+            chrome_options.add_argument('--no-sandbox')
             chrome_options.add_argument('--headless')
+            chrome_options.add_argument('--disable-gpu')
+            chrome_options.add_argument('--disable-dev-shm-usage')
+            chrome_options.add_argument("--window-size=1920,1080")
             driver = webdriver.Chrome(options=chrome_options)
             # Navigate to webpage and wait for JavaScript to load
             print("Navigating to " + url)
