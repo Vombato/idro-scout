@@ -1,0 +1,34 @@
+version: 3
+services:
+  scout:
+    container_name: idro-scout-be
+    image: idro-scout:2.0.0
+    environment:
+      - URL=https://allertameteo.regione.emilia-romagna.it/web/guest/grafico-sensori?p_p_id=AllertaGraficoPortlet&p_p_lifecycle=0&_AllertaGraficoPortlet_mvcRenderCommandName=%2Fallerta%2Fanimazione%2Fgrafico&r=
+      - LOCATIONS=3
+      - URL_LOCATION_1=-/1178295,4429424/spdsra
+      - LOCATION_1=Tebano
+      - URL_LOCATION_2=-/1163234,4422714/simnbo
+      - LOCATION_2=Casola_Valsenio
+      - URL_LOCATION_3=-/1182482,4431006/simnbo
+      - LOCATION_3=Ponte_Del_Castello
+      - URL_MIDDLE=/254,0,0/1,-,-,-/B13215/
+      - URL_STAZIONE=&stazione=
+      - URL_SUFFIX=&variabile=254,0,0/1,-,-,-/B13215
+    volumes:
+      - /home/luca/idro-scout/db:/app/db
+    restart: unless-stopped
+
+  exposer:
+    container_name: idro-scout-exp
+    image: idro-exposer:2.0.0
+    ports:
+      - 8001:8001
+    environment:
+      - LOCATIONS=3
+      - LOCATION_1=Tebano
+      - LOCATION_2=Casola_Valsenio
+      - LOCATION_3=Ponte_Del_Castello
+    volumes:
+      - /home/luca/idro-scout/db:/app/db
+    restart: unless-stopped
